@@ -1,4 +1,4 @@
-import scala.collection.immutable.SortedMap
+import scala.collection.immutable.{SortedMap, TreeMap}
 
 class School {
   type DB = Map[Int, Seq[String]]
@@ -7,8 +7,7 @@ class School {
 
   def add(name: String, g: Int): Unit = {
     val existingStudents = state.applyOrElse(g, (_: Int) => Seq())
-    val newStudents = existingStudents ++ Seq(name)
-    state = state.updated(g, newStudents)
+    state += (g -> (existingStudents ++ Seq(name)))
   }
 
   def db: DB = state
