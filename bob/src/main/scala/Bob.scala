@@ -1,17 +1,14 @@
 object Bob {
 
-  def response(statement: String): String = {
-    if (isShout(statement) && isQuestion(statement))
-      onShoutedQuestion
-    else if (isShout(statement))
-      onShout
-    else if (isQuestion(statement))
-      onQuestion
-    else if (isSilence(statement))
-      onSilence
-    else
-      onAnythingElse
-  }
+  def response(statement: String): String =
+    statement match {
+      case _ if isShout(statement) && isQuestion(statement) => onShoutedQuestion
+      case _ if isShout(statement) => onShout
+      case _ if isQuestion(statement) => onQuestion
+      case _ if isSilence(statement) => onSilence
+      case _ => onAnythingElse
+    }
+
   private def isShout(statement: String) =
     statement.exists(_.isLetter) && statement.equals(statement.toUpperCase())
 
