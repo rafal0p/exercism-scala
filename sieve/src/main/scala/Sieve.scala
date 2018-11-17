@@ -1,17 +1,8 @@
 object Sieve {
 
-  def primes(max: Int): List[Int] = {
-    findPrimes(List(), (2 to max).toList)
-  }
+  def primes(max: Int): Stream[Int] =
+    sieve(Stream.from(2)).takeWhile(_ <= max)
 
-  private def findPrimes(foundSoFar: List[Int],
-                         list: List[Int]): List[Int] = list match {
-    case head :: tail =>
-      findPrimes(foundSoFar :+ head, tail.filter(multiples(of = head)))
-    case _ => foundSoFar
-  }
-
-  private def multiples(of: Int) = {
-    i: Int => i % of != 0
-  }
+  private def sieve(stream: Stream[Int]): Stream[Int] =
+    stream.head #:: sieve(stream.tail.filter(_ % stream.head != 0))
 }
