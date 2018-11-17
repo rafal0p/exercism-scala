@@ -2,42 +2,28 @@ object Bob {
 
   def response(statement: String): String =
     statement match {
-      case isShoutedQuestion(res) => res
-      case isShout(res) => res
-      case isSilence(res) => res
-      case isQuestion(res) => res
+      case IsShoutedQuestion() => onShoutedQuestion
+      case IsShout() => onShout
+      case IsSilence() => onSilence
+      case IsQuestion() => onQuestion
       case _ => onAnythingElse
     }
 
-  object isSilence {
-    def unapply(str: String): Option[String] = ifIs(silence(str), onSilence)
+  object IsShoutedQuestion {
+    def unapply(str: String): Boolean =
+      IsShout.unapply(str) && IsQuestion.unapply(str)
   }
 
-  object isQuestion {
-    def unapply(str: String): Option[String] = ifIs(question(str), onQuestion)
+  object IsShout {
+    def unapply(str: String): Boolean = str.exists(_.isLetter) && str.equals(str.toUpperCase())
   }
 
-  object isShout {
-    def unapply(str: String): Option[String] = ifIs(shout(str), onShout)
+  object IsQuestion {
+    def unapply(str: String): Boolean = str.trim().endsWith("?")
   }
 
-  object isShoutedQuestion {
-    def unapply(str: String): Option[String] = ifIs(shout(str) && question(str), onShoutedQuestion)
-  }
-
-  private def shout(statement: String) =
-    statement.exists(_.isLetter) && statement.equals(statement.toUpperCase())
-
-  private def question(statement: String) =
-    statement.trim().endsWith("?")
-
-  private def silence(str: String) = str.trim() == ""
-
-  private def ifIs(condition: Boolean, some: String): Option[String] = {
-    if (condition)
-      Some(some)
-    else
-      None
+  object IsSilence {
+    def unapply(str: String): Boolean = str.trim() == ""
   }
 
   private val onShout = "Whoa, chill out!"
