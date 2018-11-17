@@ -1,10 +1,9 @@
 object CollatzConjecture {
 
   def steps(i: Int): Option[Int] = {
-    if (i <= 0)
-      None
-    else
-      Some(Stream.iterate(i)(collatz).takeWhile(_ != 1).length)
+    Option(i)
+      .filter(_ > 0)
+      .map(x => Stream.iterate(x)(collatz).takeWhile(_ != 1).length)
   }
 
   private def collatz(n: Int) =
