@@ -1,19 +1,44 @@
 import scala.util.Random
 
 class Robot {
-  private var _name = letters + numbers
+  private var _name = AllNames.next
 
   def name: String = _name
 
-  private def numbers = {
-    Random.nextInt(1000).formatted("%03d")
-  }
-
-  private def letters = {
-    Random.alphanumeric.dropWhile(_.isDigit).map(_.toUpper).take(2).mkString
-  }
-
   def reset(): Unit = {
-    _name = letters + numbers
+    _name = AllNames.next
+  }
+}
+
+object AllNames {
+  private var unusedNames = Random.shuffle(generateAllNames.toList)
+
+  def next: String = {
+    val name = unusedNames.head
+    unusedNames = unusedNames.tail
+    name
+  }
+
+  private def generateAllNames = {
+    allLetters
+      .flatMap(withSecondLetter)
+      .flatMap(withNumber)
+  }
+
+  private def allLetters = {
+    Range.inclusive('A', 'Z').map(_.toChar)
+  }
+
+  private def withSecondLetter = {
+    letter: Char => allLetters.map(newLetter => s"$letter$newLetter")
+  }
+
+
+  private def withNumber = {
+    s: String => formattedNumbers.map(n => s"$s$n")
+  }
+
+  private def formattedNumbers = {
+    Stream.range(0, 1000).map(_.formatted("%03d"))
   }
 }
