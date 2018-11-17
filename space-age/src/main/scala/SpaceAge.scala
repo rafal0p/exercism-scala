@@ -1,22 +1,23 @@
 object SpaceAge {
-  def onEarth(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(1, ageInSeconds)
+  val onEarth: Double => Double = ageInYearsOnPlanetWith()
 
-  def onMercury(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(0.2408467, ageInSeconds)
+  val onMercury: Double => Double = ageInYearsOnPlanetWith(0.2408467)
 
-  def onVenus(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(0.61519726, ageInSeconds)
+  val onVenus: Double => Double = ageInYearsOnPlanetWith(0.61519726)
 
-  def onMars(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(1.8808158, ageInSeconds)
+  val onMars: Double => Double = ageInYearsOnPlanetWith(1.8808158)
 
-  def onJupiter(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(11.862615, ageInSeconds)
+  val onJupiter: Double => Double = ageInYearsOnPlanetWith(11.862615)
 
-  def onSaturn(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(29.447498, ageInSeconds)
+  val onSaturn: Double => Double = ageInYearsOnPlanetWith(29.447498)
 
-  def onUranus(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(84.016846, ageInSeconds)
+  val onUranus: Double => Double = ageInYearsOnPlanetWith(84.016846)
 
-  def onNeptune(ageInSeconds: Double): Double = ageInYearsOnPlanetWith(164.79132, ageInSeconds)
+  val onNeptune: Double => Double = ageInYearsOnPlanetWith(164.79132)
 
-  private def ageInYearsOnPlanetWith(orbitalPeriod: Double, ageInSeconds: Double) =
-    ageInSeconds / yearInSecondsOnPlanetWith(orbitalPeriod)
+  private def ageInYearsOnPlanetWith(orbitalPeriod: Double = 1) =
+    (ageInSeconds: Double) =>
+      ageInSeconds / yearInSecondsOnPlanetWith(orbitalPeriod)
 
   private def yearInSecondsOnPlanetWith(orbitalPeriod: Double) = orbitalPeriod * earthYearInSeconds
 
