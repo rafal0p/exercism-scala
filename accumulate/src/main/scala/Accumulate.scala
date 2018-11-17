@@ -5,10 +5,10 @@ class Accumulate {
     @tailrec
     def _accumulate(list: List[A], result: List[B]): List[B] =
       list match {
-        case head :: tail => _accumulate(tail, result :+ f(head))
-        case _ => result
+        case head :: tail => _accumulate(tail, f(head) :: result)
+        case Nil => result.reverse
       }
 
-    _accumulate(list, List[B]())
+    _accumulate(list, List())
   }
 }
