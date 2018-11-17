@@ -1,22 +1,19 @@
 object Sieve {
+
   def primes(max: Int): List[Int] = {
-    val numbers = (0 to max).map(_ => Option.empty[Boolean]).toArray
-    var primes = List[Int]()
-    numbers(0) = Option(false)
-    numbers(1) = Option(false)
-
-    (0 to max).foreach(i => {
-      if (numbers(i).isEmpty) {
-        numbers(i) = Option(true)
-        primes = primes :+ i
-        multiplesOf(i, max).foreach(i => numbers(i) = Option(false))
-      }
-    })
-
-    primes
+    findPrimes(List(), (2 to max).toList)
   }
 
-  private def multiplesOf(n: Int, upTo: Int) = {
-    Stream.from(n, n).drop(1).takeWhile(_ <= upTo)
+  private def findPrimes(foundSoFar: List[Int], list: List[Int]): List[Int] = {
+    if (list.nonEmpty) {
+      val head = list.head
+      val tail = list.tail
+      findPrimes(head :: foundSoFar, withoutMultiples(of = head, from = tail))
+    } else {
+      foundSoFar.reverse
+    }
   }
+
+  private def withoutMultiples(of: Int, from: List[Int]) =
+    from.filter(i => i % of != 0)
 }
