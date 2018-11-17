@@ -4,9 +4,8 @@ object Sieve {
     findPrimes(List(), (2 to max).toList)
   }
 
-  private def findPrimes(
-                          foundSoFar: List[Int],
-                          list: List[Int]): List[Int] = list match {
+  private def findPrimes(foundSoFar: List[Int],
+                         list: List[Int]): List[Int] = list match {
     case head :: tail =>
       findPrimes(foundSoFar :+ head, tail.filter(multiples(of = head)))
     case _ => foundSoFar
