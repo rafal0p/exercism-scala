@@ -1,17 +1,18 @@
+import scala.annotation.tailrec
+
 object CollatzConjecture {
   def steps(i: Int): Option[Int] = {
-    if (i <= 0)
-      None
-    else {
-      var total = 0
-      var current = i
-      while (current != 1) {
-        current = collatz(current)
-        total += 1
-      }
-      Some(total)
-    }
+    val (total, _) = countSteps(0, i)
+    total
   }
+
+  @tailrec
+  private def countSteps(total: Int, current: Int): (Option[Int], Int) =
+    current match {
+      case i if i <= 0 => (None, i)
+      case 1 => (Some(total), 1)
+      case _ => countSteps(total + 1, collatz(current))
+    }
 
   private def collatz(n: Int) =
     n match {
