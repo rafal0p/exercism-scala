@@ -11,7 +11,7 @@ class School {
 
   def db: DB = state
 
-  def grade(g: Int): Seq[String] = state.applyOrElse(g, (_: Int) => Seq())
+  def grade(g: Int): Seq[String] = state.getOrElse(g, Seq())
 
   def sorted: DB = state.mapValues(_.sorted)
 }
