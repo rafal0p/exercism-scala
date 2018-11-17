@@ -6,7 +6,7 @@ abstract case class Clock(hour: Int, minute: Int) {
 
   def +(that: Clock): Clock = Clock(hour + that.hour, minute + that.minute)
 
-  def -(that: Clock) = Nil
+  def -(that: Clock) = Clock(hour - that.hour, minute - that.minute)
 }
 
 object Clock {

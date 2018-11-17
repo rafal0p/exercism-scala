@@ -112,42 +112,34 @@ class ClockTest extends FunSuite with Matchers {
   }
 
   test("subtract minutes") {
-    pending
     Clock(10, 3) - Clock(3) should be(Clock(10, 0))
   }
 
   test("subtract to previous hour") {
-    pending
     Clock(10, 3) - Clock(30) should be(Clock(9, 33))
   }
 
   test("subtract more than an hour") {
-    pending
     Clock(10, 3) - Clock(70) should be(Clock(8, 53))
   }
 
   test("subtract across midnight") {
-    pending
     Clock(0, 3) - Clock(4) should be(Clock(23, 59))
   }
 
   test("subtract more than two hours") {
-    pending
     Clock(0, 0) - Clock(160) should be(Clock(21, 20))
   }
 
   test("subtract more than two hours with borrow") {
-    pending
     Clock(6, 15) - Clock(160) should be(Clock(3, 35))
   }
 
   test("subtract more than one day (1500 min = 25 hrs)") {
-    pending
     Clock(5, 32) - Clock(1500) should be(Clock(4, 32))
   }
 
   test("subtract more than two days") {
-    pending
     Clock(2, 20) - Clock(3000) should be(Clock(0, 20))
   }
 
