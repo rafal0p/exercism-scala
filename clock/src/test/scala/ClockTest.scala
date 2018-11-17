@@ -32,22 +32,18 @@ class ClockTest extends FunSuite with Matchers {
   }
 
   test("minutes roll over continuously") {
-    pending
     Clock(0, 1723) should be(Clock(4, 43))
   }
 
   test("hour and minutes roll over") {
-    pending
     Clock(25, 160) should be(Clock(3, 40))
   }
 
   test("hour and minutes roll over continuously") {
-    pending
     Clock(201, 3001) should be(Clock(11, 1))
   }
 
   test("hour and minutes roll over to exactly midnight") {
-    pending
     Clock(72, 8640) should be(Clock(0, 0))
   }
 

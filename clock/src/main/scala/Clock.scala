@@ -12,7 +12,7 @@ abstract case class Clock(hour: Int, minute: Int) {
 object Clock {
   def apply(hour: Int, minute: Int): Clock =
     new Clock(
-      hour % 24 + minute / 60,
+      (hour % 24 + minute / 60) % 24,
       minute % 60
     ) {}
 
