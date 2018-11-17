@@ -15,9 +15,8 @@ object SpaceAge {
 
   val onNeptune: Double => Double = ageInYearsOnPlanetWith(164.79132)
 
-  private def ageInYearsOnPlanetWith(orbitalPeriod: Double = 1) =
-    (ageInSeconds: Double) =>
-      ageInSeconds / yearInSecondsOnPlanetWith(orbitalPeriod)
+  private def ageInYearsOnPlanetWith(orbitalPeriod: Double = 1)(ageInSeconds: Double) =
+    ageInSeconds / yearInSecondsOnPlanetWith(orbitalPeriod)
 
   private def yearInSecondsOnPlanetWith(orbitalPeriod: Double) = orbitalPeriod * earthYearInSeconds
 
