@@ -1,8 +1,8 @@
 object Leap {
 
-  def leapYear(year: Int): Boolean =
-    divisibleBy(4, year) &&
-      (!divisibleBy(100, year) || divisibleBy(400, year))
+  def leapYear(year: Int): Boolean = {
+    def divisibleBy(divisor: Int) = year % divisor == 0
 
-  private def divisibleBy(divisor: Int, dividend: Int): Boolean = dividend % divisor == 0
+    divisibleBy(4) && (!divisibleBy(100) || divisibleBy(400))
+  }
 }
