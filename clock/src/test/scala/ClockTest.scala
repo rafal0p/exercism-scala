@@ -24,12 +24,10 @@ class ClockTest extends FunSuite with Matchers {
   }
 
   test("sixty minutes is next hour") {
-    pending
     Clock(1, 60) should be(Clock(2, 0))
   }
 
   test("minutes roll over") {
-    pending
     Clock(0, 160) should be(Clock(2, 40))
   }
 
