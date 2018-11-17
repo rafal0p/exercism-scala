@@ -12,11 +12,23 @@ abstract case class Clock(hour: Int, minute: Int) {
 object Clock {
   def apply(hour: Int, minute: Int): Clock = {
     val sumOfMinutes = hour * 60 + minute
-    val sumOfMinutesWithoutFullDays = sumOfMinutes % (24 * 60)
+    val positiveSumOfMinutes = turnForwardIfNegative(sumOfMinutes)
+    val sumOfMinutesWithoutFullDays = positiveSumOfMinutes % minutesInDay
     val totalHours = sumOfMinutesWithoutFullDays / 60
     val totalMinutes = sumOfMinutesWithoutFullDays % 60
     new Clock(totalHours, totalMinutes) {}
   }
+
+  private def turnForwardIfNegative(sumOfMinutes: Int) = {
+    if (sumOfMinutes > 0)
+      sumOfMinutes
+    else
+      sumOfMinutes + minutesInDay * howManyDays(sumOfMinutes)
+  }
+
+  private def howManyDays(sumOfMinutes: Int) = Math.abs(sumOfMinutes) % minutesInDay
+
+  private val minutesInDay = 60 * 24
 
   def apply(minute: Int): Clock = new Clock(0, minute) {}
 }
