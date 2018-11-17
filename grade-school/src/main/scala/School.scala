@@ -6,7 +6,7 @@ class School {
   private var state = SortedMap[Int, Seq[String]]()
 
   def add(name: String, g: Int): Unit = {
-    state += (g -> (grade(g) ++ Seq(name)))
+    state += (g -> (grade(g) :+ name))
   }
 
   def db: DB = state
