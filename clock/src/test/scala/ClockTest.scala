@@ -1,4 +1,4 @@
-import org.scalatest.{Matchers, FunSuite}
+import org.scalatest.{FunSuite, Matchers}
 
 /** @version 2.2.1 */
 class ClockTest extends FunSuite with Matchers {
@@ -8,22 +8,18 @@ class ClockTest extends FunSuite with Matchers {
   }
 
   test("past the hour") {
-    pending
     Clock(11, 9) should be(Clock(11, 9))
   }
 
   test("midnight is zero hours") {
-    pending
     Clock(24, 0) should be(Clock(0, 0))
   }
 
   test("hour rolls over") {
-    pending
     Clock(25, 0) should be(Clock(1, 0))
   }
 
   test("hour rolls over continuously") {
-    pending
     Clock(100, 0) should be(Clock(4, 0))
   }
 
