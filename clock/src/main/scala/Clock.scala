@@ -6,10 +6,12 @@ abstract case class Clock(hour: Int, minute: Int) {
 
   def +(that: Clock): Clock = Clock(hour + that.hour, minute + that.minute)
 
-  def -(that: Clock) = Clock(hour - that.hour, minute - that.minute)
+  def -(that: Clock): Clock = Clock(hour - that.hour, minute - that.minute)
 }
 
 object Clock {
+  def apply(minute: Int): Clock = apply(0, minute)
+
   def apply(hour: Int, minute: Int): Clock = {
     val sumOfMinutes = hour * 60 + minute
     val positiveSumOfMinutes = turnForwardIfNegative(sumOfMinutes)
@@ -29,6 +31,4 @@ object Clock {
   private def howManyDays(sumOfMinutes: Int) = Math.abs(sumOfMinutes) % minutesInDay
 
   private val minutesInDay = 60 * 24
-
-  def apply(minute: Int): Clock = apply(0, minute)
 }
