@@ -4,7 +4,7 @@ abstract case class Clock(hour: Int, minute: Int) {
   require(minute >= 0)
   require(minute <= 60)
 
-  def +(that: Clock) = Nil
+  def +(that: Clock): Clock = Clock(hour + that.hour, minute + that.minute)
 
   def -(that: Clock) = Nil
 }
@@ -30,5 +30,5 @@ object Clock {
 
   private val minutesInDay = 60 * 24
 
-  def apply(minute: Int): Clock = new Clock(0, minute) {}
+  def apply(minute: Int): Clock = apply(0, minute)
 }
