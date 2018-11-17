@@ -10,11 +10,13 @@ abstract case class Clock(hour: Int, minute: Int) {
 }
 
 object Clock {
-  def apply(hour: Int, minute: Int): Clock =
-    new Clock(
-      (hour % 24 + minute / 60) % 24,
-      minute % 60
-    ) {}
+  def apply(hour: Int, minute: Int): Clock = {
+    val sumOfMinutes = hour * 60 + minute
+    val sumOfMinutesWithoutFullDays = sumOfMinutes % (24 * 60)
+    val totalHours = sumOfMinutesWithoutFullDays / 60
+    val totalMinutes = sumOfMinutesWithoutFullDays % 60
+    new Clock(totalHours, totalMinutes) {}
+  }
 
   def apply(minute: Int): Clock = new Clock(0, minute) {}
 }
