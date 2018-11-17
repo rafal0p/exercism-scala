@@ -1,29 +1,19 @@
 object Sieve {
   def primes(max: Int): List[Int] = {
-    var numbers = (2 to max).map(i => (i, Option.empty[Boolean]))
+    val numbers = (0 to max).map(_ => Option.empty[Boolean]).toArray
+    var primes = List[Int]()
+    numbers(0) = Option(false)
+    numbers(1) = Option(false)
 
-    def markMultiplesOf(number: Int) = {
-      numbers.map {
-        case (i, _) if i == number => (i, Option(true))
-        case (i, _) if multiplesOf(number, max).contains(i) => (i, Option(false))
-        case (i, isEmpty) => (i, isEmpty)
+    (0 to max).foreach(i => {
+      if (numbers(i).isEmpty) {
+        numbers(i) = Option(true)
+        primes = primes :+ i
+        multiplesOf(i, max).foreach(i => numbers(i) = Option(false))
       }
-    }
+    })
 
-    var n = findFirstUncheckedIn(numbers)
-    while (n.nonEmpty) {
-      numbers = markMultiplesOf(n.get)
-      n = findFirstUncheckedIn(numbers)
-    }
-
-    numbers
-      .filter { case (_, isPrime) => isPrime.getOrElse(false) }
-      .map { case (i, _) => i }
-      .toList
-  }
-
-  private def findFirstUncheckedIn(numbers: IndexedSeq[(Int, Option[Boolean])]) = {
-    numbers find { case (_, isPrime) => isPrime.isEmpty } map { case (i, _) => i }
+    primes
   }
 
   private def multiplesOf(n: Int, upTo: Int) = {
