@@ -15,5 +15,5 @@ case class WordCount(sentence: String) {
       .map(_.toLowerCase)
       .filter(_ != "")
       .groupBy(identity)
-      .map { case (word, list) => (word, list.length) }
+      .mapValues(_.length)
 }
