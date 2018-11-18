@@ -3,7 +3,7 @@ object Hamming {
     Option(left.length == right.length)
       .filter(identity)
       .map(_ =>
-        left.zip(right)
+        (left zip right)
           .map {
             case (l, r) if l == r => 0
             case _ => 1
