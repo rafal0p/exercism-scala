@@ -10,10 +10,10 @@ case class WordCount(sentence: String) {
 
   val countWords: Map[String, Int] =
     sentence
+      .toLowerCase
       .split(whitespaces)
-      .map(trimStartAndEnd)
-      .map(_.toLowerCase)
       .filter(_ != "")
+      .map(trimStartAndEnd)
       .groupBy(identity)
       .mapValues(_.length)
 }
