@@ -1,22 +1,13 @@
-import scala.annotation.tailrec
-
 object Hamming {
-
-  def distance(left: String, right: String): Option[Int] = {
-    countDistance(left.toList, right.toList, Some(0))
-  }
-
-  @tailrec
-  private def countDistance(left: List[Char],
-                            right: List[Char],
-                            acc: Option[Int]): Option[Int] = (left, right) match {
-    case (Nil, Nil) => acc
-    case (Nil, _) => None
-    case (_, Nil) => None
-    case (lh :: lt, rh :: rt) =>
-      if (lh != rh)
-        countDistance(lt, rt, acc.map(_ + 1))
-      else
-        countDistance(lt, rt, acc)
-  }
+  def distance(left: String, right: String): Option[Int] =
+    if (left.length != right.length)
+      None
+    else
+      Some(
+        left.zip(right)
+          .map {
+            case (l, r) if l == r => 0
+            case _ => 1
+          }
+          .sum)
 }
