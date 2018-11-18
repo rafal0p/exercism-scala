@@ -13,22 +13,22 @@ object Clock {
   def apply(minute: Int): Clock = apply(0, minute)
 
   def apply(hour: Int, minute: Int): Clock = {
-    val sumOfMinutes = hour * 60 + minute
-    val positiveSumOfMinutes = turnForwardIfNegative(sumOfMinutes)
-    val sumOfMinutesWithoutFullDays = positiveSumOfMinutes % minutesInDay
-    val totalHours = sumOfMinutesWithoutFullDays / 60
-    val totalMinutes = sumOfMinutesWithoutFullDays % 60
+    val minutesSum = hour * 60 + minute
+    val positiveMinutesSum = turnForwardIfNegative(minutesSum)
+    val minutesSumWithoutFullDays = positiveMinutesSum % minutesInDay
+    val totalHours = minutesSumWithoutFullDays / 60
+    val totalMinutes = minutesSumWithoutFullDays % 60
     new Clock(totalHours, totalMinutes) {}
   }
 
-  private def turnForwardIfNegative(sumOfMinutes: Int) = {
-    if (sumOfMinutes > 0)
-      sumOfMinutes
+  private def turnForwardIfNegative(minutes: Int) = {
+    if (minutes > 0)
+      minutes
     else
-      sumOfMinutes + minutesInDay * howManyDays(sumOfMinutes)
+      minutes + minutesInDay * (1 + countDaysIn(minutes))
   }
 
-  private def howManyDays(sumOfMinutes: Int) = Math.abs(sumOfMinutes) % minutesInDay
+  private def countDaysIn(minutes: Int) = Math.abs(minutes) / minutesInDay
 
   private val minutesInDay = 60 * 24
 }
