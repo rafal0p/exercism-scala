@@ -1,8 +1,8 @@
 object FlattenArray {
-  def flatten(list: List[_]): List[_] = list match {
-    case Nil => Nil
-    case null :: t => flatten(t)
-    case (h: List[_]) :: t => flatten(h) ::: flatten(t)
-    case h :: t => h :: flatten(t)
-  }
+  def flatten(list: List[Any]): List[Int] =
+    list.flatMap {
+      case elem if elem == null => List()
+      case elem: Int => List(elem)
+      case elem: List[Any] => flatten(elem)
+    }
 }
