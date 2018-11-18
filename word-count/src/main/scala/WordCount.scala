@@ -12,7 +12,7 @@ case class WordCount(sentence: String) {
     sentence
       .toLowerCase
       .split(whitespaces)
-      .filter(_ != "")
+      .filterNot(_.isEmpty)
       .map(trimStartAndEnd)
       .groupBy(identity)
       .mapValues(_.length)
