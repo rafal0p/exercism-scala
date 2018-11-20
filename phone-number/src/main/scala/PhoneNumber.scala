@@ -1,8 +1,8 @@
 object PhoneNumber {
   def clean(raw: String): Option[String] = {
     val number = trimCountryCode(raw.filter(_.isDigit))
-    if (startsWithAnyOf(Set('0', '1'), areaCode(number))
-      || startsWithAnyOf(Set('0', '1'), localNumber(number)))
+    if (areaCode(number).startsWithAnyOf(Set('0', '1'))
+      || localNumber(number).startsWithAnyOf(Set('0', '1')))
       None
     else
       number
@@ -21,6 +21,9 @@ object PhoneNumber {
 
   private def areaCode(number: Option[String]) = number.map(_.take(3))
 
-  private def startsWithAnyOf(chars: Set[Char], string: Option[String]) =
-    string.map(_ (0)).exists(chars.contains)
+  private implicit class OptionExtension(s: Option[String]) {
+    def startsWithAnyOf(chars: Set[Char]): Boolean =
+      s.map(_ (0)).exists(chars.contains)
+  }
+
 }
