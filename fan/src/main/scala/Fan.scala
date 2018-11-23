@@ -4,39 +4,42 @@ object Fan {
     val on = '*'
     val off = '.'
 
-    def shouldFill(x: Int, y: Int) = {
-      if (x < size && y < size && y >= x)
-        true
-      else if (x < size && y >= size && y >= -x + bigSize)
-        true
-      else if (x >= size && y >= size && y <= x)
-        true
-      else if (x >= size && y < size && y <= -x + bigSize)
-        true
-      else
-        false
+    def shouldFill(point: Point) = point match {
+      case Point(x, y) =>
+        if (x < size && y < size && y >= x)
+          true
+        else if (x < size && y >= size && y >= -x + bigSize)
+          true
+        else if (x >= size && y >= size && y <= x)
+          true
+        else if (x >= size && y < size && y <= -x + bigSize)
+          true
+        else
+          false
     }
 
-    def charToPrint(x: Int, y: Int) = {
-      if (shouldFill(x, y)) on else off
+    def charToPrint(point: Point) = {
+      if (shouldFill(point)) on else off
     }
 
     plane(2 * size)
-      .map { case (x, y) => (x, y, charToPrint(x, y)) }
-      .groupBy { case (_, y, _) => y }
+      .map(point => PrintedPoint(point.x, point.y, charToPrint(point)))
+      .groupBy(_.y)
       .toSeq.sortBy { case (y, _) => -y }
-      .map { case (_, line) => line
-        .sortBy { case (x, _, _) => x }
-        .map { case (_, _, c) => c }
-        .mkString
-      }
+      .map(_._2)
+      .map(line => line.sortBy(_.x).map(_.c).mkString)
       .mkString("\n")
   }
 
   private def plane(size: Int) =
     (0 until size).flatMap { x =>
       (0 until size).map { y =>
-        (x, y)
+        Point(x, y)
       }
     }
+
+  case class Point(x: Int, y: Int)
+
+  case class PrintedPoint(x: Int, y: Int, c: Char)
+
 }

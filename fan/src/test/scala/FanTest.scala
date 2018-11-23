@@ -1,6 +1,5 @@
 import org.scalatest.{FunSuite, Matchers}
 
-/** @version 3.2.0 */
 class FanTest extends FunSuite with Matchers {
 
   test("small fan") {
