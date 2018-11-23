@@ -8,8 +8,7 @@ class FanTest extends FunSuite with Matchers {
       """**.*
         |.***
         |***.
-        |*.**
-      """.stripMargin)
+        |*.**""".stripMargin)
   }
 
   test("medium fan") {
@@ -19,8 +18,7 @@ class FanTest extends FunSuite with Matchers {
         |..****
         |****..
         |**.**.
-        |*..***
-      """.stripMargin)
+        |*..***""".stripMargin)
   }
 
   test("big fan") {
@@ -32,8 +30,7 @@ class FanTest extends FunSuite with Matchers {
         |*****...
         |***.**..
         |**..***.
-        |*...****
-      """.stripMargin)
+        |*...****""".stripMargin)
   }
 
   test("huge fan") {
@@ -47,8 +44,7 @@ class FanTest extends FunSuite with Matchers {
         |****.**...
         |***..***..
         |**...****.
-        |*....*****
-      """.stripMargin)
+        |*....*****""".stripMargin)
   }
 
 }
