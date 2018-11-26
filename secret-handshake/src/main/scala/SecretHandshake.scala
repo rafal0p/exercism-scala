@@ -1,17 +1,22 @@
-import scala.annotation.tailrec
-
 object SecretHandshake {
   def commands(code: Int): List[String] = {
-    @tailrec
-    def _commands(code: Int, acc: List[String], shouldReverse: Boolean): List[String] = code match {
-      case 0 => if (shouldReverse) acc.reverse else acc
-      case _ if code / 16 >= 1 => _commands(code - 16, acc, true)
-      case _ if code / 8 >= 1 => _commands(code - 8, "jump" :: acc, shouldReverse)
-      case _ if code / 4 >= 1 => _commands(code - 4, "close your eyes" :: acc, shouldReverse)
-      case _ if code / 2 >= 1 => _commands(code - 2, "double blink" :: acc, shouldReverse)
-      case 1 => _commands(code - 1, "wink" :: acc, shouldReverse)
+    var result = List[String]()
+
+    def isOn(bit: Int) = {
+      (code & bit) == bit
     }
 
-    _commands(code, List(), shouldReverse = false)
+    if (isOn(bit = 8))
+      result = "jump" :: result
+    if (isOn(bit = 4))
+      result = "close your eyes" :: result
+    if (isOn(bit = 2))
+      result = "double blink" :: result
+    if (isOn(bit = 1))
+      result = "wink" :: result
+    if (isOn(bit = 16))
+      result = result.reverse
+
+    result
   }
 }
