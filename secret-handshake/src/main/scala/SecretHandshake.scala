@@ -1,22 +1,22 @@
 object SecretHandshake {
-  def commands(code: Int): List[String] = {
-    var result = List[String]()
+  def commands(code: Int): List[String] =
+    if (isOn(bit = 16, in = code))
+      actionsIn(code).reverse
+    else
+      actionsIn(code)
 
-    def isOn(bit: Int) = {
-      (code & bit) == bit
-    }
+  private def isOn(bit: Int, in: Int) = (in & bit) == bit
 
-    if (isOn(bit = 8))
-      result = "jump" :: result
-    if (isOn(bit = 4))
-      result = "close your eyes" :: result
-    if (isOn(bit = 2))
-      result = "double blink" :: result
-    if (isOn(bit = 1))
-      result = "wink" :: result
-    if (isOn(bit = 16))
-      result = result.reverse
+  private def actionsIn(code: Int) =
+    availableActions
+      .filter { case (key, _) => isOn(bit = key, in = code) }
+      .values
+      .toList
 
-    result
-  }
+  private val availableActions: Map[Int, String] = Map(
+    1 -> "wink",
+    2 -> "double blink",
+    4 -> "close your eyes",
+    8 -> "jump"
+  )
 }
