@@ -20,28 +20,28 @@ case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
 }
 
 sealed trait Bearing {
-  def left: Bearing
-  def right: Bearing
+  val left: Bearing
+  val right: Bearing
 }
 
 case class NorthBearing() extends Bearing {
-  override def left: Bearing = WestBearing()
-  override def right: Bearing = EastBearing()
+  override lazy val left: Bearing = WestBearing()
+  override lazy val right: Bearing = EastBearing()
 }
 
 case class EastBearing() extends Bearing {
-  override def left: Bearing = NorthBearing()
-  override def right: Bearing = SouthBearing()
+  override lazy val left: Bearing = NorthBearing()
+  override lazy val right: Bearing = SouthBearing()
 }
 
 case class SouthBearing() extends Bearing {
-  override def left: Bearing = EastBearing()
-  override def right: Bearing = WestBearing()
+  override lazy val left: Bearing = EastBearing()
+  override lazy val right: Bearing = WestBearing()
 }
 
 case class WestBearing() extends Bearing {
-  override def left: Bearing = SouthBearing()
-  override def right: Bearing = NorthBearing()
+  override lazy val left: Bearing = SouthBearing()
+  override lazy val right: Bearing = NorthBearing()
 }
 
 object Bearing {
