@@ -1,3 +1,5 @@
+import Bearing._
+
 case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
 
   def turnRight: Robot = Robot(bearing.right, coordinates)
@@ -5,10 +7,10 @@ case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
   def turnLeft: Robot = Robot(bearing.left, coordinates)
 
   def advance: Robot = bearing match {
-    case NorthBearing() => Robot(bearing, (coordinates._1, coordinates._2 + 1))
-    case EastBearing() => Robot(bearing, (coordinates._1 + 1, coordinates._2))
-    case SouthBearing() => Robot(bearing, (coordinates._1, coordinates._2 - 1))
-    case WestBearing() => Robot(bearing, (coordinates._1 - 1, coordinates._2))
+    case North => Robot(bearing, (coordinates._1, coordinates._2 + 1))
+    case East => Robot(bearing, (coordinates._1 + 1, coordinates._2))
+    case South => Robot(bearing, (coordinates._1, coordinates._2 - 1))
+    case West => Robot(bearing, (coordinates._1 - 1, coordinates._2))
   }
 
   def simulate(steps: String): Robot =
@@ -24,29 +26,26 @@ sealed trait Bearing {
   val right: Bearing
 }
 
-case class NorthBearing() extends Bearing {
-  override lazy val left: Bearing = WestBearing()
-  override lazy val right: Bearing = EastBearing()
-}
-
-case class EastBearing() extends Bearing {
-  override lazy val left: Bearing = NorthBearing()
-  override lazy val right: Bearing = SouthBearing()
-}
-
-case class SouthBearing() extends Bearing {
-  override lazy val left: Bearing = EastBearing()
-  override lazy val right: Bearing = WestBearing()
-}
-
-case class WestBearing() extends Bearing {
-  override lazy val left: Bearing = SouthBearing()
-  override lazy val right: Bearing = NorthBearing()
-}
-
 object Bearing {
-  val North: Bearing = NorthBearing()
-  val East: Bearing = EastBearing()
-  val South: Bearing = SouthBearing()
-  val West: Bearing = WestBearing()
+
+  case object North extends Bearing {
+    val left: Bearing = West
+    val right: Bearing = East
+  }
+
+  case object East extends Bearing {
+    val left: Bearing = North
+    val right: Bearing = South
+  }
+
+  case object South extends Bearing {
+    val left: Bearing = East
+    val right: Bearing = West
+  }
+
+  case object West extends Bearing {
+    val left: Bearing = South
+    val right: Bearing = North
+  }
+
 }
