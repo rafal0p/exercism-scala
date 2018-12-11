@@ -1,16 +1,16 @@
 import Bearing._
 
-case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
+case class Robot(bearing: Bearing, coordinates: Point) {
 
   def turnRight: Robot = Robot(bearing.right, coordinates)
 
   def turnLeft: Robot = Robot(bearing.left, coordinates)
 
   def advance: Robot = bearing match {
-    case North => Robot(bearing, (coordinates._1, coordinates._2 + 1))
-    case East => Robot(bearing, (coordinates._1 + 1, coordinates._2))
-    case South => Robot(bearing, (coordinates._1, coordinates._2 - 1))
-    case West => Robot(bearing, (coordinates._1 - 1, coordinates._2))
+    case North => Robot(bearing, coordinates.copy(y = coordinates.y + 1))
+    case East => Robot(bearing, coordinates.copy(x = coordinates.x + 1))
+    case South => Robot(bearing, coordinates.copy(y = coordinates.y - 1))
+    case West => Robot(bearing, coordinates.copy(x = coordinates.x - 1))
   }
 
   def simulate(steps: String): Robot =
@@ -19,6 +19,23 @@ case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
       case (robot, 'L') => robot.turnLeft
       case (robot, 'A') => robot.advance
     }
+}
+
+object Robot {
+  def apply(bearing: Bearing, coordinates: (Int, Int)): Robot =
+    Robot(bearing, Point(coordinates._1, coordinates._2))
+}
+
+case class Point(x: Int, y: Int) extends Product2[Int, Int] {
+  val _1: Int = x
+
+  val _2: Int = y
+
+  override def equals(that: Any): Boolean = that match {
+    case Point(that_x, that_y) => that_x == x && that_y == y
+    case (that_x, that_y) => that_x == x && that_y == y
+    case _ => false
+  }
 }
 
 sealed trait Bearing {
