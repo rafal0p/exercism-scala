@@ -1,26 +1,26 @@
+import scala.util.Random
+
 object BookStore {
   def total(books: List[Int]): Double = {
-    total(books.foldLeft(Seq[Group]())(insertBookInBestGroup))
+    total(books.foldLeft(Map[Int, Group]())(insertBookInBestGroup))
   }
 
-  private def insertBookInBestGroup(groups: Seq[Group], book: Int): Seq[Group] = {
-    val potentialGroups = groups
-      .zipWithIndex
-      .filterNot { case (group, _) => group.contains(book) }
+  private def insertBookInBestGroup(groups: Map[Int, Group], book: Int): Map[Int, Group] = {
+    val potentialGroups = groups.filterNot { case (_, group) => group.contains(book) }
 
     if (potentialGroups.isEmpty) {
-      groups :+ Group(Set(book))
+      groups + (Random.nextInt() -> Group(Set(book)))
     } else {
-      val idxOfBestGroup = potentialGroups
-        .map { case (group, idx) => (total(groups.updated(idx, group.add(book))), idx) }
+      val bestGroupId = potentialGroups
+        .map { case (id, group) => (total(groups.updated(id, group.add(book))), id) }
         .minBy { case (total, _) => total }
         ._2
 
-      groups.updated(idxOfBestGroup, groups(idxOfBestGroup).add(book))
+      groups.updated(bestGroupId, groups(bestGroupId).add(book))
     }
   }
 
-  private def total(groups: Seq[Group]) = groups.map(_.price).sum
+  private def total(groups: Map[Int, Group]) = groups.values.map(_.price).sum
 
   private def discountAmountFor(numberOfBooks: Int) = numberOfBooks * discountRateFor(numberOfBooks) * basePrice
 
