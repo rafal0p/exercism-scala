@@ -9,7 +9,7 @@ object BookStore {
     val potentialGroups = groups.filterNot(_.contains(book))
 
     if (potentialGroups.isEmpty) {
-      groups + Group(Set(book))
+      groups + new Group(Set(book))
     } else {
       val bestGroup = potentialGroups
         .map(group => (group, total(groups - group + group.add(book))))
@@ -35,10 +35,10 @@ object BookStore {
 
   private val basePrice = 800
 
-  case class Group(books: Set[Int], id: Int = Random.nextInt()) {
+  class Group(books: Set[Int]) {
     val price: Double = books.size * basePrice - discountAmountFor(books.size)
 
-    def add(book: Int): Group = Group(books + book, id)
+    def add(book: Int): Group = new Group(books + book)
 
     def contains(book: Int): Boolean = books.contains(book)
   }
